@@ -6,9 +6,9 @@ Kremezi, M., Kristollari, V., Karathanassi, V., Topouzelis, K., Kolokoussis, P.,
 
 It can be accessed in: https://ieeexplore.ieee.org/abstract/document/9406795
 
-![Training input and output](/images/training_input_output.PNG)
+![Training input and output](/images/training_input_output.png)
 
-![Inference input and output](/images/inference_input_output.PNG)
+![Inference input and output](/images/inference_input_output.png)
 
 ![Spectra](/images/Spectra.PNG)
 
