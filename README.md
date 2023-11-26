@@ -25,6 +25,7 @@ Run:
 >5. "inference_create_pansharpened_im.py" to make predictions and create the pansharpened image.
 
 *Detailed guidelines are included inside each script.*
+** The folder "example_image" contains an Prisma L1 level image and a .docx file with a detailed description about preparing the input files of the CNN. It also contains a .py file to georeference Prisma L2D level images.
 
 
 If you use this code, please cite the below paper.
