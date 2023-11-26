@@ -1,0 +1,40 @@
+#Guidelines to prepare input files
+
+https://mega.nz/folder/CU0inQRZ#BAMkRyJ28uD9_q8Iy3IXsw
+
+In the above link the files described below can be found:
+
+1) a PRISMA L1 image in two files: (Prisma_L1_20200918_HS.tiff, Prisma_L1_20200918_PAN.tiff) which correspond to the HS and the PAN bands accordingly.  The xy-size of the HS image is 1000x1000 px and the spatial resolution is 30 m. The xy-size of the PAN image is 6000x6000 px and the spatial resolution is 5 m. Thus, the ratio is 1/6. The wavelengths corresponding to the bands are attached in “wavelengths.txt”. These two files can be used during the training.
+
+2) a small cropped area from the above files to be used during inference (Prisma_L1_20200918_HScut.tif, Prisma_L1_20200918_PANcut.tif. The xy-size of the HS image is 167x167 px and the spatial resolution is 30 m. The xy-size of the corresponding PAN image is 1000x1000 px  and  the spatial resolution is 5 m.
+
+3) The pansharpened output file (PansharpenedL1_20200918_histogram_clipping.tiff). Histogram clipping was performed during training and inference as described in the pre-processing steps in github.
+
+Below I am writing the pre-processing steps required to prepare the input during training by using gdal commands in the command line:
+
+#Input
+
+1. Convert Prisma_L1_20200918_PAN.tiff to 30 m spatial resolution and size 1000x1000 (downsampling with 1/6 ratio).
+gdal_translate Prisma_20200918_PAN.tiff -ot UInt16 -of Gtiff -outsize 1000 1000 -r nearest Prisma_20200918_PANLR.tiff
+
+2. Convert Prisma_20200918_HS.tiff to 180 m spatial resolution and size 167x167 (downsampling with 1/6 ratio).
+gdal_translate Prisma_20200918_HS.tiff -ot UInt16 -of Gtiff -outsize 167 167 -r nearest Prisma_20200918_HSLR.tiff
+
+3. Convert Prisma_20200918_HSLR.tiff to 180 m spatial resolution and size 1000x1000 (upsampling  with 1/6 ratio).
+gdal_translate Prisma_20200918_HSLR.tiff -ot UInt16 -of Gtiff -outsize 1000 1000 -r bilinear Prisma_20200918_HSLRUp.tiff
+
+4. Merge Prisma_20200918_HSLRUp.tiff and Prisma_20200918_PANLR.tiff to create the input file during training.
+gdal_merge.py -o input_training.tiff -of Gtiff -ot UInt16 -separate Prisma_20200918_HSLRUp.tiff Prisma_20200918_PANLR.tiff
+
+#Output
+
+The output file during training is Prisma_L1_20200918_HS.tiff
+--------------------------------------------------------------------------
+Below I am writing the pre-processing steps required to prepare the input  during inference by using gdal commands in the command line:
+
+1. Convert Prisma_L1_20200918_HScut.tiff  to 30 m spatial resolution and size 1000x1000 (upsampling  with 1/6 ratio).
+gdal_translate Prisma_20200918_HScut.tif -ot UInt16 -of Gtiff -outsize 1000 1000 -r bilinear Prisma_HS_20200918_cutUp.tif
+
+2. Merge Prisma_HS_20200918_cutUp.tif and Prisma_L1_20200918_PANcut.tif to create the input file during inference.
+gdal_merge.py -o input_inference.tiff -of Gtiff -ot UInt16 -separate Prisma_HS_20200918_cutUp.tif Prisma_L1_20200918_PANcut.tif
+

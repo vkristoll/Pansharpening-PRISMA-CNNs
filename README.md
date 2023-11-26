@@ -26,8 +26,9 @@ Run:
 
 *Detailed guidelines are included inside each script.*
 
-*The folder "example_image" contains a Prisma L1 level image and a .docx file with a detailed description about preparing the input files of the CNN. It also contains a .py file to georeference Prisma L2D level images.
+*The file "Preparing_input_files.txt" includes a link to access a Prisma L1 level image and detailed description about preparing the input files of the CNN.
 
+*The file "PRISMA_L2D_georeference.py" contains information on georeferencing Prisma L2D level images.
 
 If you use this code, please cite the below paper.
 
