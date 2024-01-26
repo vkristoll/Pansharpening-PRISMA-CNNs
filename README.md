@@ -6,7 +6,7 @@ Kremezi, M., Kristollari, V., Karathanassi, V., Topouzelis, K., Kolokoussis, P.,
 
 It can be accessed in: https://ieeexplore.ieee.org/abstract/document/9406795
 
-![Training - Inference](/images/training_inference.png)
+![Training - Inference](/images/training_inference2.png)
 
 ![Spectra](/images/Spectra.PNG)
 
